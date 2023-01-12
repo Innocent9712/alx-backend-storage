@@ -1,19 +1,15 @@
--- Script that creates a function SafeDiv that divides
--- (and returns) the first by the second number or returns
--- 0 if the second number is equal to 0.
-DELIMITER $$ ;
-CREATE FUNCTION SafeDiv(
-	a INT,
-	b INT
+-- SQL script that creates a stored procedure ComputeAverageWeightedScoreForUser
+-- That computes and store the average weighted score for a student
+
+DROP procedure IF EXISTS ComputeAverageWeightedScoreForUser;
+DELIMITER |
+CREATE PROCEDURE ComputeAverageWeightedScoreForUser (
+	IN user_id INT
 )
-RETURNS FLOAT
-DETERMINISTIC
 BEGIN
-	DECLARE result FLOAT;
-	IF b = 0 THEN
-		RETURN 0;
-        END IF;
-        SET result = (a * 1.0) / b;
-        RETURN result;
-END;$$
-DELIMITER ;
+    UPDATE users
+   	SET average_score=(SELECT AVG(score) FROM corrections
+			     WHERE corrections.user_id=user_id)
+	WHERE id=user_id;
+END;
+|

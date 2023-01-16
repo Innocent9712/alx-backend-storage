@@ -26,7 +26,7 @@ def main():
     print("Methods:")
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     for method in methods:
-        print(f"""    method {method}: {nginx.count_documents(
+        print(f"""\tmethod {method}: {nginx.count_documents(
                 {"method": method})}"""
               )
     print(f"""{nginx.count_documents({

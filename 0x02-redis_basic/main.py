@@ -6,17 +6,17 @@ import redis
 
 Cache = __import__('exercise').Cache
 
-cache = Cache()
+cache1 = Cache()
 
 data = b"hello"
-key = cache.store(data)
+key = cache1.store(data)
 print(key)
 
 local_redis = redis.Redis()
 print(local_redis.get(key))
 
 
-cache = Cache()
+cache2 = Cache()
 
 TEST_CASES = {
     b"foo": None,
@@ -25,5 +25,14 @@ TEST_CASES = {
 }
 
 for value, fn in TEST_CASES.items():
-    key = cache.store(value)
-    assert cache.get(key, fn=fn) == value
+    key = cache2.store(value)
+    assert cache2.get(key, fn=fn) == value
+
+cache3 = Cache()
+
+cache3.store(b"first")
+print(cache3.get(cache3.store.__qualname__))
+
+cache3.store(b"second")
+cache3.store(b"third")
+print(cache3.get(cache3.store.__qualname__))
